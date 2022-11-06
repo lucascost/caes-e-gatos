@@ -1,16 +1,32 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Início</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-  hello world!
-    <br/><br/>
-    <a href="/login">Login</a>
-    <br/>
-    <a href="/logout">Logout</a>
-    <br/>
-    <a href="/signup">Sign up</a>
+  <body>
+    <span>Olá</span>
+      <br/><br/>
+      <a href="/login">Login</a>
+      <br/>
+      <a href="/logout">Logout</a>
+      <br/>
+      <a href="/signup">Sign up</a>
+      <br/>
+      <br/>
+      <select name="uf" id="uf">
+        <option></option>
+      </select>
+      <select name="cidade" id="cidade">
+        <option selected>----------</option>
+      </select>
+  </body>
 </body>
+<script src="{% static 'js/api.js' %}"></script>
 </html>
