@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
 from account.forms import UserLoginForm
+from core.filters import AnuncioFilter
 from core.forms import AnuncioForm
 from core.models import Anuncio
 
@@ -32,16 +33,16 @@ def add_anuncio(request):
     form = AnuncioForm()
     return render(request, 'anuncio/forms/add.html', {'form': form})
 
-#todo remover
-def busca_cidade(request, cidade):
-    anuncios = Anuncio.objects.filter(perfil__cidade = cidade)
-    print(anuncios)
-    return render(request, 'result.html', {'anuncios':anuncios})
-
-
 def ver_todos(request):
-    anuncios = Anuncio.objects.all().order_by('-data_criacao')
-    paginator = Paginator(anuncios, 12)
+    filter_key = request.GET.get('tipo_animal')
+    if filter_key is not None and filter_key is not '':
+        filter = AnuncioFilter(request.GET, queryset=Anuncio.objects.filter(tipo_animal=filter_key).order_by('-data_criacao'))
+    else:
+        filter = AnuncioFilter(request.GET, queryset=Anuncio.objects.all().order_by('-data_criacao'))
+        filter_key = ''
+        anuncios = filter.qs
+
+    paginator = Paginator(anuncios, 4)
 
     try:
         page = int(request.GET.get('page', '1'))
@@ -53,4 +54,4 @@ def ver_todos(request):
     except (EmptyPage, InvalidPage):
         anuncios = paginator.page(paginator.num_pages)
 
-    return render(request, 'result.html',{'anuncios': anuncios})
+    return render(request, 'result.html',{'anuncios': anuncios, 'filter': filter, 'filter_key': filter_key})

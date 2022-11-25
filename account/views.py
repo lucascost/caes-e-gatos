@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from account.forms import UserForm, UserLoginForm
-from account.models import User
+from core.forms import PerfilForm
 
 
 def try_auth(request, email, password):
@@ -23,9 +23,7 @@ def user_login(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return render(request, 'result.html', {'result': "Success"})
-        else:
-            return render(request, 'result.html', {'result': "Failed"})
+            return redirect('/')
     else:
         form = UserLoginForm()
     return render(request, 'auth/login.html', {'form': form})
@@ -39,14 +37,19 @@ def user_signup(request):
         return redirect('/')
     if request.method == 'POST':
         form = UserForm(request.POST)
-        print(form)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.password = make_password(new_user.password)
-            new_user.save()
+        perfil_form = PerfilForm(request.POST)
+        if form.is_valid() and perfil_form.is_valid():
+            user = form.save(commit=False)
+            perfil = perfil_form.save(commit=False)
+            user.password = make_password(user.password)
+            user.save()
+            perfil.user = user
+            perfil.nome = user.first_name+' '+user.last_name
+            perfil.save()
             user_login(request)
             return redirect('/')
     else:
         form = UserForm()
+        perfil_form = PerfilForm()
 
-    return render(request, 'auth/signup.html', {'form': form})
+    return render(request, 'auth/signup.html', {'form': form, 'perfil_form':perfil_form})
