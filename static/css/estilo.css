@@ -1,0 +1,31 @@
+:root {
+    --orange: #FF6207;
+    --blue: #01B8BC;
+}
+
+body{ background-color: var(--blue) !important; }
+
+.logo{
+    position: relative;
+}
+
+.logo_img{
+    position: absolute;
+    left: 3rem;
+    top: 3rem;
+}
+
+.menu a{ color: #ffffff !important; }
+.menu-light a{ color: var(--blue) !important; }
+
+.recem-chegados{ background-color: #ffffff; position: relative; }
+
+.pet-card{
+    background-color: var(--blue);
+    border-radius: 10px;
+    position: relative;
+    color: #ffffff;
+}
+.link{ text-decoration: none;}
+form a{ text-decoration: none;}
+form button{ background-color: var(--blue) !important;}

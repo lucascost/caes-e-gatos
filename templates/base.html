@@ -16,17 +16,17 @@
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </head>
 
-<body>
+<body style="background-color:#ffffff !important">
 <!-- Topo -->
 <header class="row">
     <div class="logo col">
         <img src="{% static 'img/bg_logo.png' %}" class="bg_logo">
         <img src="{% static 'img/logo.png' %}" class="logo_img">
     </div>
-    <nav class="navbar navbar-expand menu col">
+    <nav class="navbar navbar-expand menu-light col">
         <div class="container-fluid justify-content-end me-2">
             <ul class="navbar-nav mb-2 navbar-text">
-                <li class="nav-item"><a class="nav-link" href="#recem-chegados" >Quero Adotar</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'core:ver_todos' %}" >Quero Adotar</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'core:add_anuncio' %}">Quero Anunciar</a></li>
                 <li class="nav-item"><a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvas-signup">Cadastre-se</a></li>
                 <li class="nav-item"><a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvas-login"><strong>Entrar</strong></a>
@@ -113,67 +113,14 @@
     </div>
 </div>
 
-<!-- Banner -->
-<section>
-    <div class="container my-4 pt-4">
-        <div class="row align-items-center text-light pb-4">
-            <div class="col">
-                <h1 class="display-5 fw-bold">Seu novo amigo pode estar mais perto do que você imagina!</h1>
-                <br/>
-                <p class="fs-5">Encontre vários anjinhos à espera de um lar, na sua região. </p>
-                <br/>
-                <a href="#">
-                    <button class="btn btn-lg btn-light w-50" type="button">Buscar agora</button>
-                </a>
-            </div>
-            <div class="col d-flex justify-content-end">
-                <img src="{% static 'img/pet.png' %}" width="90%">
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Recem chegados -->
-
-<section id="recem-chegados" class="recem-chegados mb-4">
-    <img src="{% static 'img/pegadas.png' %}" style="position: absolute; right: 0;">
-
-    <div class="container pt-4">
-        <h4>Recém chegados</h4>
-        <br/>
-        <div class="row">
-            {% for anuncio in recentes %}
-                <div class="col-12 col-sm-12 col-md-4 col-lg-3 p-2" style="height: 300px;">
-                    <div style="height: 100%;">
-                        <a href="{% url 'core:ver_anuncio' anuncio.id %}" class="link">
-                            <div class="pet-card" width="100%" height="100%">
-                                <img src="{{ anuncio.image.url }}" class="card-img-top" width="100%" height="200px">
-                                <div class="card-body" style="text-align: center;">
-                                    <h5 class="card-title"><strong>{{ anuncio.titulo }}</strong></h5>
-                                    <p class="card-text">{{ anuncio.perfil.cidade }}, {{ anuncio.perfil.estado }}</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="py-4" style="text-align: center;">
-            <a href="{% url 'core:ver_todos' %}">
-                <button class="btn btn-lg text-light" type="button" style="background-color: var(--blue);">
-                    Ver mais
-                </button>
-            </a>
-        </div>
-    </div>
-    <br/>
-    <br/>
-    <br/>
-</section>
+<div class="container-fluid" style="background-color: var(--blue);">
+    {% block content %}
+    {% endblock %}
+</div>
 
 <!-- Footer -->
 
-<footer class="row">
+<footer class="row" style="background-color: var(--blue);">
     <div class="col d-flex justify-content-center">
         <img src="{% static 'img/logo_branca.png' %}">
     </div>

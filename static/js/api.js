@@ -1,6 +1,8 @@
 const URL_UF = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados/'
-const UF = document.getElementById('uf')
-const CIDADES = document.getElementById('cidade')
+const UF = document.getElementById('id_estado')
+const CIDADES = document.getElementById('id_cidade')
+
+console.log('it works!')
 
 UF.addEventListener('change', async ()=>{
     CIDADES.innerHTML =''
