@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from account.models import User
 
@@ -19,6 +20,7 @@ class Anuncio(models.Model):
     titulo = models.CharField(max_length=50)
     tipo_animal = models.CharField(max_length=15)
     descricao = models.TextField()
-
+    data_criacao = models.DateTimeField(auto_now_add=True, null=True)
+    image = models.ImageField(null=True, blank=True, upload_to='images/')
     def __str__(self):
         return self.titulo
