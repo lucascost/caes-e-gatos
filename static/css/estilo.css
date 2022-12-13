@@ -9,6 +9,10 @@ body{ background-color: var(--blue) !important; }
     position: relative;
 }
 
+.asteriskField {
+    display: none;
+}
+
 .logo_img{
     position: absolute;
     left: 3rem;
@@ -29,3 +33,4 @@ body{ background-color: var(--blue) !important; }
 .link{ text-decoration: none;}
 form a{ text-decoration: none;}
 form button{ background-color: var(--blue) !important;}
+
