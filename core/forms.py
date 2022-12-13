@@ -13,6 +13,7 @@ class PerfilForm(forms.ModelForm):
 
 class AnuncioForm(forms.ModelForm):
     tipo_animal = forms.ChoiceField(choices=CHOICES, required=True)
+    image = forms.FileField(required=True, widget=forms.FileInput(attrs={"accept": "image/png, image/jpeg"}))
 
     class Meta:
         model = Anuncio
