@@ -12,7 +12,7 @@ class UserForm(forms.ModelForm):
 
 class UserLoginForm(forms.ModelForm):
     email = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Email', 'class':'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Senha', 'class':'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Senha', 'class':'form-control'}), label='Senha')
 
     class Meta:
         model = User

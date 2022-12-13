@@ -24,9 +24,8 @@ def user_login(request):
         if user is not None:
             login(request, user)
             return redirect('/')
-    else:
-        form = UserLoginForm()
-    return render(request, 'auth/login.html', {'form': form})
+
+    return render(request, 'auth/login.html', {'form':UserLoginForm})
 
 def user_logout(request):
     logout(request)
