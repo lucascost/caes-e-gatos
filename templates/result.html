@@ -1,40 +1,66 @@
 {% extends 'base.html' %}
 
+
+{% block style %}
+  .container{
+    min-height: 700px;
+  }
+{% endblock %}
+
 {% block content %}
 <div class="container pt-4">
   <form method="get">
-    <div class="row">
+    <div class="row align-items-end">
       <div class="col text-light">
-        {{ filter.form }}
+        <label for="id_tipo_animal">Tipo de animal:</label>
+        <select name="tipo_animal" class="form-select" id="id_tipo_animal">
+          <option value="" selected>---------</option>
+          <option value="Cachorro">Cachorro</option>
+          <option value="Gato">Gato</option>
+        </select>
+      </div>
+      <div class="col text-light">
+        <label for="id_estado">Estado:</label>
+        <select name="estado" class="form-select select-estado" id="id_estado">
+          <option value="" selected>---------</option>
+        </select>
+      </div>
+      <div class="col text-light">
+        <label for="id_cidade">Cidade:</label>
+        <select name="cidade" class="form-select select-cidade" id="id_cidade">
+          <option value="" selected>---------</option>
+        </select>
       </div>
       <div class="col d-flex align-items-end">
-        <input type="submit" value="Buscar" class="btn btn-light">
+        <input type="submit" value="Buscar" onclick="saveKeywords()" class="btn btn-light">
       </div>
     </div>
   </form>
-  <br/>
-  <br/>
+  <br />
+  <br />
   <div class="row">
-      {% for anuncio in anuncios %}
-          <div class="col-12 col-sm-12 col-md-4 col-lg-3 p-2" style="height: 300px;">
-              <div style="height: 100%;">
-                  <a href="{% url 'core:ver_anuncio' anuncio.id %}" class="link">
-                      <div class="pet-card" width="100%" height="100%" style=" background-color: var(--orange);">
-                          <img src="{{ anuncio.image.url }}" class="card-img-top" width="100%" height="200px">
-                          <div class="card-body" style="text-align: center;">
-                              <h5 class="card-title"><strong>{{ anuncio.titulo }}</strong></h5>
-                              <p class="card-text">{{ anuncio.perfil.cidade }}, {{ anuncio.perfil.estado }}</p>
-                          </div>
-                      </div>
-                  </a>
-              </div>
+    {% for anuncio in anuncios %}
+    <div class="col-12 col-sm-12 col-md-4 col-lg-3 p-2" style="height: 300px;">
+      <div style="height: 100%;">
+        <a href="{% url 'core:ver_anuncio' anuncio.id %}" class="link">
+          <div class="pet-card" width="100%" height="100%" style=" background-color: var(--orange);">
+            <img src="{{ anuncio.image.url }}" class="card-img-top" width="100%" height="200px">
+            <div class="card-body" style="text-align: center;">
+              <h5 class="card-title"><strong>{{ anuncio.titulo }}</strong></h5>
+              <p class="card-text">{{ anuncio.perfil.cidade }}, {{ anuncio.perfil.estado }}</p>
+            </div>
           </div>
-      {% endfor %}
+        </a>
+      </div>
+    </div>
+    {% endfor %}
   </div>
   <div class="py-4 w-100" style="text-align: center;">
     <span class="step-links text-light">
       {% if anuncios.has_previous %}
-          <a href="?page={{ anuncios.previous_page_number }}&tipo_animal={{filter_key}}" class="text-light"><strong>< Anterior</strong></a>
+      <a href="?page={{ anuncios.previous_page_number }}&tipo_animal={{tipo_animal}}&estado={{estado}}&cidade={{cidade}}"
+        class="text-light"><strong>
+          < Anterior</strong></a>
       {% endif %}
 
       <span class="current">
@@ -42,9 +68,43 @@
       </span>
 
       {% if anuncios.has_next %}
-          <a href="?page={{ anuncios.next_page_number }}&tipo_animal={{filter_key}}" class="text-light"><strong>Próxima ></strong></a>
+      <a href="?page={{ anuncios.next_page_number }}&tipo_animal={{tipo_animal}}&estado={{estado}}&cidade={{cidade}}"
+        class="text-light"><strong>Próxima
+          ></strong></a>
       {% endif %}
-      </span>
+    </span>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const tipoField = document.getElementById('id_tipo_animal')
+  const estadoField = document.getElementById('id_estado')
+  const cidadeField = document.getElementById('id_cidade')
+
+  {% if tipo_animal == '' and estado == '' and cidade == '' %}
+    window.localStorage.clear()
+  {% else %}
+    loadKey(tipoField,'tipo_animal')
+    loadKey(estadoField,'uf_nome')
+    loadKey(cidadeField,'cidade')
+  {% endif %}
+
+  function loadKey(field, itemName) {
+    var data = window.localStorage.getItem(itemName)
+    if(data != null)
+      field.value = data
+    console.log(itemName+': '+data)
+  }
+
+  console.log(window.localStorage.getItem('uf_nome'))
+
+  function saveKeywords() {
+    window.localStorage.setItem('tipo_animal', tipoField.value)
+    window.localStorage.setItem('uf_sigla', estadoField.options[estadoField.selectedIndex].value)
+    window.localStorage.setItem('uf_nome', estadoField.options[estadoField.selectedIndex].text)
+    window.localStorage.setItem('cidade', cidadeField.value)
+  }
+</script>
 {% endblock %}

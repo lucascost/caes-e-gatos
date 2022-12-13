@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -14,17 +15,32 @@
     <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        #btn-login{ background-color: var(--blue); }
+    </style>
 </head>
 
 <body>
-    <div class="card">
-        <div class="card-body">
-            <form action="/login/" method="post">
-                {% csrf_token %}
-                {{ form.email }}
-                {{ form.password }}
-                <input type="submit" value="Log in">
-            </form>
+    <div class="container d-flex justify-content-center align-items-center"
+        style="height: 100%;">
+        <div class="row">
+            <div class="card">
+                <div class="card-body p-4">
+                    <h6 class="card-subtitle mb-4 text-muted">Entre em sua conta para prosseguir</h6>
+                    <form action="/login/" method="post">
+                        {% csrf_token %}
+                        {{ form.email | as_crispy_field }}
+                        {{ form.password | as_crispy_field }}
+                        <input id="btn-login" class="btn w-100 text-light" type="submit" value="Entrar" >
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </body>

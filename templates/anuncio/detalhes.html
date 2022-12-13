@@ -1,9 +1,66 @@
 {% extends 'base.html' %}
 
+{% block style%}
+.img-pet{ height: 500px; }
+
+.container{
+    background-color: #fff;
+    border-radius: 20px;
+    position:relative;
+}
+
+.btn-action{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin:15px;
+}
+
+{% endblock %}
+
 {% block content %}
-<main style="height: 100%;">
-    <h2>{{ anuncio.titulo }}</h2>
-    <p> {{ anuncio.tipo_animal }} </p>
-    <p> {{ anuncio.descricao }} </p>
-</main>
+<br /><br />
+<div class="container p-4 shadow">
+    <div class="row px-4">
+        <div class="img-pet col-lg-4 p-0 col-12">
+            <img src="{{anuncio.image.url}}" width="100%" height="100%" style="object-fit: cover;">
+        </div>
+        <div class="col-1"></div>
+        <div class="col">
+            <br/>
+            <h2>{{anuncio.titulo}}</h2>
+            <p>{{ anuncio.perfil.cidade }}, {{ anuncio.perfil.estado }}<br/><i class="text-muted">{{ anuncio.data_criacao }}</i><br/><br/>Contato: {{ anuncio.perfil.telefone }} | {{anuncio.perfil.user.email }}</p>
+            <p>{{ anuncio.descricao }}</p>
+        </div>
+    </div>
+    {% if anuncio.perfil.user == user %}
+    <div class="btn-action">
+        <a href="{% url 'core:edit_anuncio' anuncio.id %}"><input type="button" class="btn btn-primary shadow-sm" value="Editar"></a>
+        <br/><br/>
+        <input type="button" class="btn btn-danger shadow-sm" value="Excluir" data-bs-toggle="modal" data-bs-target="#confirmModal">
+    </div>
+    {% endif %}
+    
+</div>
+<br /><br /><br /><br /><br /><br />
+
+
+<div class="modal" tabindex="-1" id="confirmModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmação</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tem certeza que deseja remover o anúncio?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não, cancelar</button>
+          <a href="{% url 'core:delete_anuncio' anuncio.id %}"><button type="button" class="btn btn-primary">Sim, remover</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 {% endblock %}

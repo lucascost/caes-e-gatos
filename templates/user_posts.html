@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block style %}
+  .container{
+    min-height: 700px;
+    
+  }
+  .post{
+    background-color: #fff;
+    border-radius: 20px;
+    position:relative;
+}
+
+a{
+    text-decoration: none;
+}
+
+{% endblock %}
+
+{% block content %}
+<div class="container pt-4 text-light">
+    <h3>Meus anúncios</h3>
+  <div class="row">
+    {% for anuncio in anuncios %}
+    <div class="col-12 post p-4 mb-2">
+        <a href="{% url 'core:ver_anuncio' anuncio.id %}" class="text-dark">
+            <div class="row">
+                <div class="col col-md-4 col-lg-3 col-xl-2">
+                    <img src="{{ anuncio.image.url }}" width="200px" height="200px">        
+                </div>
+                <div class="col">
+                    <br/>
+                    <h2>{{anuncio.titulo}}</h2>
+                    <p>{{ anuncio.perfil.cidade }}, {{ anuncio.perfil.estado }}<br/><i class="text-muted">{{ anuncio.data_criacao }}</i></p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

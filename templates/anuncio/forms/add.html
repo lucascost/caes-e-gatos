@@ -1,20 +1,94 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionando anuncio</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block style %}
+
+.asteriskField {
+display: none;
+}
+
+.picture-label{
+width: 400px;
+aspect-ratio: 16/9;
+background: #ffffff;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #aaa;
+border: 2px dashed currentcolor;
+border-radius: 10px;
+cursor: pointer;
+font-family: sans-serif;
+transition: color 300ms ease-in-out, background 300ms ease-in-out;
+overflow: hidden;
+}
+.picture-label:hover {
+color: #777;
+background: #eee;
+}
+
+.form-image{
+opacity: 0;
+height:0
+}
+
+.add-img-icon{
+    display:none
+}
+{% endblock %}
+
+{% block content %}
+<div class="container pt-4">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Salvar">
-    </form>
-</body>
-<script>
-    document.getElementsByTagName('option')[0].innerHTML = ''
+        <div class="text-light fw-bold">
+            <div class="col col-md-6 mb-2">
+                {{form.titulo | as_crispy_field}}
+            </div>
+            <div class="col col-md-3 mb-2">
+                {{form.tipo_animal | as_crispy_field}}
+            </div>
+            <div class="col col-md-6 mb-2">
+                {{form.descricao | as_crispy_field}}
+            </div>
+            <div class="col my-4">
+                {{ form.image.label }}
+            </div>
+            <div class="col my-4">
+                <label class="picture-label" for="id_image" tabIndex="0">
+                    <div class="d-flex flex-column align-items-center">
+                        <svg class="add-img-icon" xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                            fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            <path
+                                d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
+                        </svg>
+                        <span id="img_preview"></span>
+                        
+                    </div>
 
+                </label>
+                <div class="form-image">
+                            {{ form.image }}
+                        </div>
+            </div>
+
+
+            <input class="btn btn-light" type="submit" value="Salvar" style="min-width: 200px;">
+        </div>
+    </form>
+</div>
+<br /><br /><br /><br /><br /><br />
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/img_preview.js' %}"></script>
+<script>
+    {% if img != '' %}    
+        loadImg('{{img}}');
+    {% endif %}
+
+    document.getElementById('id_tipo_animal').children[0].innerHTML = '';
 </script>
-</html>
+{% endblock %}
